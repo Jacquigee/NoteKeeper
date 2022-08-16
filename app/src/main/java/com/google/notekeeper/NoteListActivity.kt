@@ -10,6 +10,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.google.notekeeper.data.DataManager
+import com.google.notekeeper.data.NoteInfo
 import com.google.notekeeper.databinding.ActivityNoteListBinding
 
 class NoteListActivity : AppCompatActivity() {
@@ -40,9 +41,15 @@ class NoteListActivity : AppCompatActivity() {
 
         findViewById<ListView>(R.id.listNotes).setOnItemClickListener{ _, _, position, _ ->
             val activityIntent = Intent(this, MainActivity::class.java)
-            activityIntent.putExtra(EXTRA_NOTE_POSITION, position)
+            activityIntent.putExtra(NOTE_POSITION, position)
             startActivity(activityIntent)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (findViewById<ListView>(R.id.listNotes).adapter as ArrayAdapter<NoteInfo>)
+            .notifyDataSetChanged()
     }
 
     override fun onSupportNavigateUp(): Boolean {
